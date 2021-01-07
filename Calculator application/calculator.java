@@ -1,95 +1,40 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class CalculatorDemoJava extends Frame implements ActionListener{
     TextField content;
-    Button ac,del,per,div,seven,eight,nine,mul,four,five,six,sub,one,two,three,add,zero,dot,equal;
+    Panel panel;
     String setContent="";
     int endIndex=0;
     double result=0;
     int i=0;
+     String[] btnString = {"AC","DEL","M+","M-",
+        "7", "8", "9", "+",
+        "4", "5", "6", "-",
+        "1", "2", "3", "x",
+        "0", ".", "=", "/"};
+    Button[] btn = new Button[20];
     CalculatorDemoJava() {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
                 System.exit(0);
             }
         });
-        //Creating text field
-        content=new TextField(80);
-        
-        //Setting layout
-        setLayout(new GridLayout(5, 4));
-        setFont(new Font("Arial", Font.BOLD, 14));
-        
-        //Creating buttons
-        ac=new Button("AC");
-        del=new Button("DEL");
-        per=new Button("%");
-        div=new Button("/");
-        seven=new Button("7");
-        eight=new Button("8");
-        nine=new Button("9");
-        mul=new Button("x");
-        four=new Button("4");
-        five=new Button("5");
-        six=new Button("6");
-        sub=new Button("-");
-        one=new Button("1");
-        two=new Button("2");
-        three=new Button("3");
-        add=new Button("+");
-        zero=new Button("0");
-        dot=new Button(".");
-        equal=new Button("=");
-        
-        //Adding textfields and buttons on to the frame
-        add(content);
-        add(ac);
-        add(del);
-        add(per);
-        add(div);
-        add(seven);
-        add(eight);
-        add(nine);
-        add(mul);
-        add(four);
-        add(five);
-        add(six);
-        add(sub);
-        add(one);
-        add(two);
-        add(three);
-        add(add);
-        add(zero);
-        add(dot);
-        add(equal);
-        
-        //Listening to events
-        content.addActionListener(this);
-        ac.addActionListener(this);
-        del.addActionListener(this);
-        per.addActionListener(this);
-        div.addActionListener(this);
-        seven.addActionListener(this);
-        eight.addActionListener(this);
-        nine.addActionListener(this);
-        mul.addActionListener(this);
-        four.addActionListener(this);
-        five.addActionListener(this);
-        six.addActionListener(this);
-        sub.addActionListener(this);
-        one.addActionListener(this);
-        two.addActionListener(this);
-        three.addActionListener(this);
-        add.addActionListener(this);
-        zero.addActionListener(this);
-        dot.addActionListener(this);
-        equal.addActionListener(this);
+        Font f = new Font("Cambria", Font.BOLD, 18);
+        content = new TextField(10);
+        content.setFont(f);
+        panel = new Panel();
+        add(content, "North");
+        add(panel, "Center");
+        panel.setLayout(new GridLayout(5,4));
+        for(int i=0; i < 20; i++) {
+            btn[i] = new Button(btnString[i]);
+            btn[i].setFont(f);
+            btn[i].addActionListener(this);
+            panel.add(btn[i]);
+        }
     }
-    
-    //F function
     int F(String symbol)
     {
         int number;
@@ -113,8 +58,6 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
         }
         return number;
     }
-    
-    //G function
     int G(String symbol)
     {
         int number;
@@ -138,8 +81,6 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
         }
         return number;
     }
-    
-    //Converting infix expression to postfix expression
     void infix_postfix(String[] infix,String[] postfix)
     {
         int top,i,j;
@@ -171,8 +112,6 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
             postfix[j++]=s[top--];
         }
     }
-    
-    //Function to compute
     double compute(String symbol,double op1,double op2)
     {
         switch (symbol)
@@ -191,7 +130,6 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
         }
         return result;
     }
-    
     public void actionPerformed(ActionEvent ae)
     {
         String s=ae.getActionCommand();
@@ -202,20 +140,18 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
             endIndex=setContent.length()-1;
             content.setText(setContent);
         }
-        //To delete a single character from the expression given as input inside the text field
         else if (s.equals("DEL"))
         {
             setContent=setContent.substring(0,endIndex);
             content.setText(setContent);
             endIndex=endIndex-1;
         }
-        //To delete the whole expression given as input inside the text field
         else if (s.equals("AC"))
         {
             setContent="";
             content.setText(setContent);
         }
-        else if (s.equals("+") || s.equals("-") || s.equals("x") || s.equals("/") || s.equals("%"))
+        else if (s.equals("+") || s.equals("-") || s.equals("x") || s.equals("/"))
         {
             setContent+=s;
             content.setText(setContent);
@@ -225,12 +161,10 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
             String[] infix=new String[30];
             String[] postfix =new String[30];
             StringBuilder postString= new StringBuilder();
-            //Variables required to update the infix array
-            String regex = "[0-9]+.[0-9]+|\\+|-|x|\\/";
+            String regex = "[0-9]+\\.[0-9]+|[0-9]+|\\+|-|x|\\/";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(setContent);
-            //Variables required to push the elements inside the stack for evaluating the postfix expression
-            String regex1 = "[0-9]+.[0-9]+";
+            String regex1 = "[0-9]+\\.[0-9]+|[0-9]+";
             Pattern pattern1 = Pattern.compile(regex1);
             int i=0;
             while (matcher.find()) {
@@ -256,7 +190,7 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
                     Matcher matcher1=pattern1.matcher(c);
                     if (matcher1.find())
                     {
-                        stack[++top]=Float.parseFloat(c);
+                        stack[++top]=Double.parseDouble(c);
                     }
                     else
                     {
@@ -275,7 +209,7 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
     public static void main(String[] args)
     {
         CalculatorDemoJava cd=new CalculatorDemoJava();
-        cd.setSize(new Dimension(300,300));
+        cd.setSize(new Dimension(250,300));
         cd.setTitle("Calculator Demo");
         cd.setVisible(true);
     }
