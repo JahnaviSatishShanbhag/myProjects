@@ -1,26 +1,29 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
-
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 public class CalculatorDemoJava extends Frame implements ActionListener{
     TextField content;
     Button ac,del,per,div,seven,eight,nine,mul,four,five,six,sub,one,two,three,add,zero,dot,equal;
     String setContent="";
     int endIndex=0;
     double result=0;
-//    String[] setContentArray=new String[25];
     int i=0;
-//    String setContentCopy="";
     CalculatorDemoJava() {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
                 System.exit(0);
             }
         });
+        //Creating text field
         content=new TextField(80);
+        
+        //Setting layout
         setLayout(new GridLayout(5, 4));
         setFont(new Font("Arial", Font.BOLD, 14));
-//        content=new TextField(80);
+        
+        //Creating buttons
         ac=new Button("AC");
         del=new Button("DEL");
         per=new Button("%");
@@ -40,6 +43,8 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
         zero=new Button("0");
         dot=new Button(".");
         equal=new Button("=");
+        
+        //Adding textfields and buttons on to the frame
         add(content);
         add(ac);
         add(del);
@@ -60,6 +65,8 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
         add(zero);
         add(dot);
         add(equal);
+        
+        //Listening to events
         content.addActionListener(this);
         ac.addActionListener(this);
         del.addActionListener(this);
@@ -81,63 +88,73 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
         dot.addActionListener(this);
         equal.addActionListener(this);
     }
-    int F(char symbol)
+    
+    //F function
+    int F(String symbol)
     {
         int number;
         switch(symbol)
         {
-            case '+':
-            case '-':number=2;
+            case "+":
+            case "-":number=2;
                 break;
-            case 'x':
-            case '/':number=4;
+            case "x":
+            case "/":number=4;
                 break;
-            case '^':
-            case '$':number=5;
+            case "^":
+            case "$":number=5;
                 break;
-            case '(':number=0;
+            case "(":number=0;
                 break;
-            case '#':number=-1;
+            case "#":number=-1;
                 break;
             default:number=8;
                 break;
         }
         return number;
     }
-    int G(char symbol)
+    
+    //G function
+    int G(String symbol)
     {
         int number;
         switch(symbol)
         {
-            case '+':
-            case '-':number=1;
+            case "+":
+            case "-":number=1;
                 break;
-            case 'x':
-            case '/':number=3;
+            case "x":
+            case "/":number=3;
                 break;
-            case '^':
-            case '$':number=6;
+            case "^":
+            case "$":number=6;
                 break;
-            case '(':number=9;
+            case "(":number=9;
                 break;
-            case ')':number=0;
+            case ")":number=0;
                 break;
             default:number=7;
                 break;
         }
         return number;
     }
-    void infix_postfix(char[] infix,char[] postfix)
+    
+    //Converting infix expression to postfix expression
+    void infix_postfix(String[] infix,String[] postfix)
     {
         int top,i,j;
-        char[] s=new char[30];
-        char symbol;
+        String[] s=new String[30];
+        String symbol;
         top=-1;
-        s[++top]='#';
+        s[++top]="#";
         j=0;
         for (i=0;i<infix.length;i++)
         {
             symbol=infix[i];
+            if (symbol==null)
+            {
+                break;
+            }
             while (F(s[top])>G(symbol))
             {
                 postfix[j]=s[top--];
@@ -149,29 +166,32 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
             }
             else top--;
         }
-        while (s[top]!='#')
+        while (!s[top].equals("#"))
         {
             postfix[j++]=s[top--];
         }
     }
-    double compute(char symbol,double op1,double op2)
+    
+    //Function to compute
+    double compute(String symbol,double op1,double op2)
     {
         switch (symbol)
         {
-            case '+':result=op1+op2;
+            case "+":result=op1+op2;
                 break;
-            case '-':result=op1-op2;
+            case "-":result=op1-op2;
                 break;
-            case 'x':result=op1*op2;
+            case "x":result=op1*op2;
                 break;
-            case '/':result=op1/op2;
+            case "/":result=op1/op2;
                 break;
-            case '$':
-            case '^':result=Math.pow(op1,op2);
+            case "$":
+            case "^":result=Math.pow(op1,op2);
                 break;
         }
         return result;
     }
+    
     public void actionPerformed(ActionEvent ae)
     {
         String s=ae.getActionCommand();
@@ -179,16 +199,17 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
                 s.equals("8") || s.equals("9") || s.equals("."))
         {
             setContent += s;
-//            setContentCopy+=s;
             endIndex=setContent.length()-1;
             content.setText(setContent);
         }
+        //To delete a single character from the expression given as input inside the text field
         else if (s.equals("DEL"))
         {
             setContent=setContent.substring(0,endIndex);
             content.setText(setContent);
             endIndex=endIndex-1;
         }
+        //To delete the whole expression given as input inside the text field
         else if (s.equals("AC"))
         {
             setContent="";
@@ -196,54 +217,54 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
         }
         else if (s.equals("+") || s.equals("-") || s.equals("x") || s.equals("/") || s.equals("%"))
         {
-//            setContentArray[i]=setContentCopy;
-//
-//            System.out.printf("setContentArray[%d]=%s\n",i,setContentArray[i]);
-//            i=i+1;
-//            setContentArray[i]=s;
             setContent+=s;
-//            System.out.printf("setContentArray[%d]=%s\n",i,setContentArray[i]);
-//            i=i+1;
-//            setContentCopy="";
             content.setText(setContent);
         }
         else if (s.equals("="))
         {
-            char[] infix=new char[30];
-            char[] postfix =new char[30];
+            String[] infix=new String[30];
+            String[] postfix =new String[30];
             StringBuilder postString= new StringBuilder();
-            for (i=0;i<setContent.length();i++)
-            {
-                infix[i]=setContent.charAt(i);
+            //Variables required to update the infix array
+            String regex = "[0-9]+.[0-9]+|\\+|-|x|\\/";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(setContent);
+            //Variables required to push the elements inside the stack for evaluating the postfix expression
+            String regex1 = "[0-9]+.[0-9]+";
+            Pattern pattern1 = Pattern.compile(regex1);
+            int i=0;
+            while (matcher.find()) {
+                infix[i]=matcher.group();
+                i++;
             }
             infix_postfix(infix,postfix);
-            for (char c : postfix) {
-                if (Character.isDigit(c) || c=='+' || c=='-' || c=='x' || c=='/')
-                {
-                    postString.append(c);
-                }
-            }
             double[] stack=new double[20];
             double res;
             double op1=0;
             double op2=0;
             int top=-1;
-            char symbol;
-            for (i=0;i<postString.length();i++)
+            String symbol;
+            for (String c:postfix)
             {
-                symbol=postString.charAt(i);
-                if (Character.isDigit(symbol))
+                symbol=c;
+                if (c==null)
                 {
-                    StringBuilder sym=new StringBuilder();
-                    sym.append(symbol);
-                    stack[++top]=Integer.parseInt(sym.toString());
+                    break;
                 }
                 else
                 {
-                    op2=stack[top--];
-                    op1=stack[top--];
-                    res=compute(symbol,op1,op2);
-                    stack[++top]=res;
+                    Matcher matcher1=pattern1.matcher(c);
+                    if (matcher1.find())
+                    {
+                        stack[++top]=Float.parseFloat(c);
+                    }
+                    else
+                    {
+                        op2=stack[top--];
+                        op1=stack[top--];
+                        res=compute(symbol,op1,op2);
+                        stack[++top]=res;
+                    }
                 }
             }
             res=stack[top];
