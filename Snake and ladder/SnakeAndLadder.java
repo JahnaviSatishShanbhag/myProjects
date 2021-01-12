@@ -204,6 +204,7 @@ public class SnakeAndLadder extends Frame implements ActionListener{
         }
         else if (c%4==0)
         {
+
             g.setColor(Color.YELLOW);
             g.fillArc(xco,yco,10,10,0,360);
             number=initial_number+number;
@@ -211,6 +212,9 @@ public class SnakeAndLadder extends Frame implements ActionListener{
             g.setColor(Color.MAGENTA);
             update_position(number,82,g);
             c=c+1;
+
+            g.setColor(Color.DARK_GRAY);
+            update_position(number1,62,g);
         }
         else
         {
@@ -221,6 +225,9 @@ public class SnakeAndLadder extends Frame implements ActionListener{
             g.setColor(Color.DARK_GRAY);
             update_position(number1,62,g);
             c=c+1;
+
+            g.setColor(Color.MAGENTA);
+            update_position(number,82,g);
         }
     }
     public static void main(String[] args)
@@ -231,5 +238,4 @@ public class SnakeAndLadder extends Frame implements ActionListener{
         appwin.setVisible(true);
     }
 }
-
 
