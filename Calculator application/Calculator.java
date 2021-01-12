@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-public class CalculatorDemoJava extends Frame implements ActionListener{
+public class Calculator extends Frame implements ActionListener{
     TextField content;
     Panel panel;
     String setContent="";
@@ -208,7 +208,7 @@ public class CalculatorDemoJava extends Frame implements ActionListener{
     }
     public static void main(String[] args)
     {
-        CalculatorDemoJava cd=new CalculatorDemoJava();
+        Calculator cd=new Calculator();
         cd.setSize(new Dimension(250,300));
         cd.setTitle("Calculator Demo");
         cd.setVisible(true);
