@@ -1,9 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Scanner;
-import javax.swing.ImageIcon;
 public class SnakeAndLadder extends Frame implements ActionListener{
-    //    ImageIcon a;
     Scanner s=new Scanner(System.in);
     int number=1;
     int initial_number=0;
@@ -16,7 +14,6 @@ public class SnakeAndLadder extends Frame implements ActionListener{
     int yco1=620;
     int c=0;
     TextField myTextField;
-    TextField myTextField1;
     public SnakeAndLadder() {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
@@ -24,25 +21,10 @@ public class SnakeAndLadder extends Frame implements ActionListener{
             }
         });
         myTextField=new TextField(10);
-        myTextField1=new TextField(10);
         setLayout(new FlowLayout());
         add(myTextField);
         myTextField.addActionListener(this);
-        myTextField.setText("1");
-        add(myTextField1);
-        myTextField1.addActionListener(this);
-        myTextField1.setText("1");
-//      a = new ImageIcon("C:\\Users\\HP-PC\\Pictures\\Camera Roll\\
-//        setSize(a.getIconWidth(), a.getIconHeight());
-//        setLocationRelativeTo(null);
-//        addWindowListener(wl);
-//        setVisible(true);
     }
-
-    //    public void paint(Graphics g) {
-//        super.paint(g);
-//        g.drawImage(a.getImage(), 0, 0, this);
-//    }
     void update_position(int number,int xwidth,Graphics g)
     {
         if (number>=1 && number<=10)
@@ -118,8 +100,15 @@ public class SnakeAndLadder extends Frame implements ActionListener{
     }
     public void actionPerformed(ActionEvent ae)
     {
-        number=Integer.parseInt(myTextField.getText());
-        number1 = Integer.parseInt(myTextField1.getText());
+        if ((c%4)==1)
+        {
+            number1 = Integer.parseInt(myTextField.getText());
+        }
+        else
+        {
+            number=Integer.parseInt(myTextField.getText());
+        }
+        c=c+1;
         repaint();
     }
     public void paint(Graphics g)
@@ -197,22 +186,42 @@ public class SnakeAndLadder extends Frame implements ActionListener{
             g.drawString(String.valueOf(i),x,80);
             i++;
         }
+        if (c==0)
+        {
+            g.setColor(Color.YELLOW);
+            g.fillArc(xco1,yco1,10,10,0,360);
+            number1=initial_number1+number1;
+            initial_number1=number1;
+            g.setColor(Color.DARK_GRAY);
+            update_position(number1,62,g);
 
-        g.setColor(Color.YELLOW);
-        g.fillArc(xco1,yco1,10,10,0,360);
-        number1=initial_number1+number1;
-        initial_number1=number1;
-        g.setColor(Color.DARK_GRAY);
-        update_position(number1,62,g);
-
-        g.setColor(Color.YELLOW);
-        g.fillArc(xco,yco,10,10,0,360);
-//        System.out.println("Before number:"+number);
-        number=initial_number+number;
-        initial_number=number;
-//        System.out.println("After number:"+number);
-        g.setColor(Color.MAGENTA);
-        update_position(number,82,g);
+            g.fillArc(xco,yco,10,10,0,360);
+            number=initial_number+number;
+            initial_number=number;
+            g.setColor(Color.MAGENTA);
+            update_position(number,82,g);
+            c=c+1;
+        }
+        else if (c%4==0)
+        {
+            g.setColor(Color.YELLOW);
+            g.fillArc(xco,yco,10,10,0,360);
+            number=initial_number+number;
+            initial_number=number;
+            g.setColor(Color.MAGENTA);
+            update_position(number,82,g);
+            c=c+1;
+        }
+        else
+        {
+            g.setColor(Color.YELLOW);
+            g.fillArc(xco1,yco1,10,10,0,360);
+            number1=initial_number1+number1;
+            initial_number1=number1;
+            g.setColor(Color.DARK_GRAY);
+            update_position(number1,62,g);
+            c=c+1;
+        }
     }
     public static void main(String[] args)
     {
@@ -222,4 +231,5 @@ public class SnakeAndLadder extends Frame implements ActionListener{
         appwin.setVisible(true);
     }
 }
+
 
