@@ -15,7 +15,7 @@ public class Calculator extends Frame implements ActionListener{
         "1", "2", "3", "x",
         "0", ".", "=", "/"};
     Button[] btn = new Button[20];
-    CalculatorDemoJava() {
+    Calculator() {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
                 System.exit(0);
