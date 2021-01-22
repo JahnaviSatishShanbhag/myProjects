@@ -1,8 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 import java.util.Scanner;
 import java.util.Random;
-public class SnakeAndLadder extends Frame implements ActionListener{
+public class SnakeLadderBoard extends Frame implements ActionListener
+{
+    ImageIcon b;
+    Image board;
     Random rand=new Random();
     Scanner s=new Scanner(System.in);
     int number=1;
@@ -18,9 +22,14 @@ public class SnakeAndLadder extends Frame implements ActionListener{
     int userNumber=0;
     int computerNumber=0;
     Button myButton;
-    public SnakeAndLadder() {
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
+    SnakeLadderBoard()
+    {
+        b=new ImageIcon("C:\\Users\\HP-PC\\Pictures\\Snake and ladder\\board.jpg");
+        board=b.getImage();
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent we)
+            {
                 System.exit(0);
             }
         });
@@ -34,71 +43,71 @@ public class SnakeAndLadder extends Frame implements ActionListener{
         if (number>=1 && number<=10)
         {
             num=number-1;
-            xco=(90*num)+xwidth;
-            yco=645;
+            xco=(55*num)+xwidth;
+            yco=600;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else if (number>=11 && number<=20)
         {
             num=20-number;
-            xco=(90*num)+xwidth;
-            yco=585;
+            xco=(55*num)+xwidth;
+            yco=544;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else if (number>=21 && number<=30)
         {
             num=10-(30-number)-1;
-            xco=(90*num)+xwidth;
-            yco=525;
+            xco=(55*num)+xwidth;
+            yco=488;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else if (number>=31 && number<=40)
         {
             num=40-number;
-            xco=(90*num)+xwidth;
-            yco=465;
+            xco=(55*num)+xwidth;
+            yco=432;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else if (number>=41 && number<=50)
         {
             num=10-(50-number)-1;
-            xco=(90*num)+xwidth;
-            yco=405;
+            xco=(55*num)+xwidth;
+            yco=376;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else if (number>=51 && number<=60)
         {
             num=60-number;
-            xco=(90*num)+82;
-            yco=345;
+            xco=(55*num)+xwidth;
+            yco=320;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else if (number>=61 && number<=70)
         {
             num=10-(70-number)-1;
-            xco=(90*num)+xwidth;
-            yco=285;
+            xco=(55*num)+xwidth;
+            yco=264;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else if (number>=71 && number<=80)
         {
             num=80-number;
-            xco=(90*num)+xwidth;
-            yco=225;
+            xco=(55*num)+xwidth;
+            yco=208;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else if (number>=81 && number<=90)
         {
             num=10-(90-number)-1;
-            xco=(90*num)+xwidth;
-            yco=165;
+            xco=(55*num)+xwidth;
+            yco=152;
             g.fillArc(xco,yco,10,10,0,360);
         }
         else
         {
             num=100-number;
-            xco=(90*num)+xwidth;
-            yco=105;
+            xco=(55*num)+xwidth;
+            yco=96;
             g.fillArc(xco,yco,10,10,0,360);
         }
     }
@@ -112,6 +121,7 @@ public class SnakeAndLadder extends Frame implements ActionListener{
                 userNumber=rand.nextInt(6)+1;
                 number1= userNumber;
             }
+//            number1 = Integer.parseInt(myTextField.getText());
         }
         else
         {
@@ -120,85 +130,16 @@ public class SnakeAndLadder extends Frame implements ActionListener{
                 computerNumber=rand.nextInt(6)+1;
                 number= computerNumber;
             }
+//            number=Integer.parseInt(myTextField.getText());
         }
         c=c+1;
         repaint();
     }
     public void paint(Graphics g)
     {
+        g.drawImage(board,6,68,this);
         Font myFont=new Font("Courier",Font.BOLD,15);
-        int i=1;
-        g.setColor(Color.YELLOW);
-        for (int x=50;x<=950;x++)
-        {
-            g.drawLine(x,75,x,675);
-        }
-        for (int y=75;y<=675;y++)
-        {
-            g.drawLine(50,y,950,y);
-        }
-        g.setColor(Color.BLUE);
-        for (int x=50;x<1000;x+=90)
-        {
-            g.drawLine(x,75,x,675);
-        }
-        for (int y=75;y<725;y+=60)
-        {
-            g.drawLine(50,y,950,y);
-        }
-
         g.setFont(myFont);
-        g.setColor(Color.RED);
-        for (int x=95;x<950;x+=90)
-        {
-            g.drawString(String.valueOf(i),x,645);
-            i++;
-        }
-        for (int x=905;x>50;x-=90)
-        {
-            g.drawString(String.valueOf(i),x,585);
-            i++;
-        }
-        for (int x=95;x<950;x+=90)
-        {
-            g.drawString(String.valueOf(i),x,525);
-            i++;
-        }
-        for (int x=905;x>50;x-=90)
-        {
-            g.drawString(String.valueOf(i),x,465);
-            i++;
-        }
-        for (int x=95;x<950;x+=90)
-        {
-            g.drawString(String.valueOf(i),x,405);
-            i++;
-        }
-        for (int x=905;x>50;x-=90)
-        {
-            g.drawString(String.valueOf(i),x,345);
-            i++;
-        }
-        for (int x=95;x<950;x+=90)
-        {
-            g.drawString(String.valueOf(i),x,285);
-            i++;
-        }
-        for (int x=905;x>50;x-=90)
-        {
-            g.drawString(String.valueOf(i),x,225);
-            i++;
-        }
-        for (int x=95;x<950;x+=90)
-        {
-            g.drawString(String.valueOf(i),x,165);
-            i++;
-        }
-        for (int x=905;x>50;x-=90)
-        {
-            g.drawString(String.valueOf(i),x,105);
-            i++;
-        }
         if (c==0)
         {
             g.setColor(Color.YELLOW);
@@ -206,13 +147,13 @@ public class SnakeAndLadder extends Frame implements ActionListener{
             number1=initial_number1+number1;
             initial_number1=number1;
             g.setColor(Color.DARK_GRAY);
-            update_position(number1,62,g);
+            update_position(number1,27,g);
 
             g.fillArc(xco,yco,10,10,0,360);
             number=initial_number+number;
             initial_number=number;
             g.setColor(Color.MAGENTA);
-            update_position(number,82,g);
+            update_position(number,40,g);
             c=c+1;
         }
         else if (c%4==0)
@@ -223,15 +164,14 @@ public class SnakeAndLadder extends Frame implements ActionListener{
             number=initial_number+number;
             initial_number=number;
             g.setColor(Color.MAGENTA);
-            update_position(number,82,g);
+            update_position(number,40,g);
             c=c+1;
 
             g.setColor(Color.DARK_GRAY);
-            update_position(number1,62,g);
+            update_position(number1,27,g);
 
             g.setColor(Color.MAGENTA);
-            g.drawString("",580,85);
-            g.drawString("Computer's magic number : "+computerNumber,580,62);
+            g.drawString("Computer's magic number : "+computerNumber,350,52);
         }
         else
         {
@@ -240,22 +180,21 @@ public class SnakeAndLadder extends Frame implements ActionListener{
             number1=initial_number1+number1;
             initial_number1=number1;
             g.setColor(Color.DARK_GRAY);
-            update_position(number1,62,g);
+            update_position(number1,27,g);
             c=c+1;
 
             g.setColor(Color.MAGENTA);
-            update_position(number,82,g);
+            update_position(number,40,g);
 
             g.setColor(Color.DARK_GRAY);
-            g.drawString("",580,85);
-            g.drawString("Your magic number : "+userNumber,580,62);
+            g.drawString("Your magic number : "+userNumber,350,52);
         }
     }
     public static void main(String[] args)
     {
-        SnakeAndLadder appwin = new SnakeAndLadder();
-        appwin.setSize(new Dimension(1000,725));
-        appwin.setTitle("Snake and ladder demo");
+        SnakeLadderBoard appwin = new SnakeLadderBoard();
+        appwin.setSize(new Dimension(569,629));
+        appwin.setTitle("Snake and ladder");
         appwin.setVisible(true);
     }
 }
