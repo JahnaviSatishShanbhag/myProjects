@@ -198,4 +198,3 @@ public class SnakeLadderBoard extends Frame implements ActionListener
         appwin.setVisible(true);
     }
 }
-
