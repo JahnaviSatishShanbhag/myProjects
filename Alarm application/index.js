@@ -28,13 +28,6 @@ function makeBoxVisible() {
     }
 }
 
-function setAlarm() {
-    let hours = document.querySelector('#hours');
-    let minutes = document.querySelector('#minutes');
-    let setHours = hours.value;
-    let setMinutes = minutes.value;
-}
-
 window.onload = function () {
     let time = window.setInterval(currentTime, 1000);
     document.querySelector('#set').addEventListener('click', makeBoxVisible);
