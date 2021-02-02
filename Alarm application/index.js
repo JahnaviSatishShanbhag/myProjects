@@ -1,4 +1,4 @@
-let audio = new Audio('audio/Arijit Singh - Sawan Aaya Hai.mp3');
+let audio = new Audio('audio/fantasy-alarm-clock-ringtone.mp3');
 
 function currentTime() {
     let dateObj = new Date();
@@ -33,17 +33,20 @@ function setAlarm() {
     let minutes = document.querySelector('#minutes');
     let setHours = hours.value;
     let setMinutes = minutes.value;
-    let dateObject = new Date();
-    if (parseInt(setHours) == parseInt(dateObject.getHours()) && parseInt(setMinutes) == parseInt(dateObject.getMinutes())) {
-        let beforePlay = dateObject.getSeconds();
-        while ((dateObject.getSeconds() - beforePlay) != 40) {
-            audio.play();
-        }
-    }
 }
 
 window.onload = function () {
     let time = window.setInterval(currentTime, 1000);
     document.querySelector('#set').addEventListener('click', makeBoxVisible);
-    document.querySelector('#okay').addEventListener('click', setAlarm);
+    document.querySelector('#okay').addEventListener('click', () => {
+        let beforePlayHours = parseInt(new Date().getHours());
+        let beforePlayMinutes = parseInt(new Date().getMinutes());
+        let beforePlaySeconds = parseInt(new Date().getSeconds());
+        let setHours = parseInt(document.querySelector('#hours').value);
+        let setMinutes = parseInt(document.querySelector('#minutes').value);
+        let setMilliseconds = (setHours - beforePlayHours) * 3600000 + (setMinutes - beforePlayMinutes) * 60000-beforePlaySeconds*1000;
+        window.setTimeout(() => {
+            audio.play();
+        }, setMilliseconds);
+    });
 }
